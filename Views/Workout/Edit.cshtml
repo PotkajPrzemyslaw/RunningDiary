@@ -1,0 +1,13 @@
+﻿@model WorkoutViewModel
+
+@{
+    ViewData["Title"] = "Workout Page";
+}
+
+<form asp-controller="Workout" asp-action="Edit">
+    Name: <input type="text" name="Name" /> <br />
+    DateOfWorkout: <input type="date" name="DateOfWorkout" /> <br />
+    <button type="submit" class="btn btn-success">Edit</button>
+</form>
+
+

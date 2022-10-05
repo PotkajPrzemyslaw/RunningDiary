@@ -1,0 +1,62 @@
+﻿@model List<RunnerViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<a asp-controller="Home" asp-action="Add" class="btn btn-success">Go to add</a>
+
+<form asp-controller="Home" asp-action="Index">
+    <input type="text" name="FilterString" />
+    <button type="submit" class="btn btn-success">Filter</button>
+</form>
+
+
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    Id
+                </th>
+                <th scope="col">
+                    FirstName
+                </th>
+                <th scope="col">
+                    LastName
+                </th>
+                <th scope="col">
+                    PhoneNumber
+                </th>
+                <th scope="col">
+                    Address
+                </th>
+                <th scope="col">
+                    DateOfBirth
+                </th>
+                <th scope="col">
+                    Actions
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var runner in Model)
+            {
+                <tr>
+                    <th scope="row">@(runner.Id)</th>
+                    <td>@runner.FirstName</td>
+                    <td>@runner.LastName</td>
+                    <td>@runner.PhoneNumber</td>
+                    <td>@runner.Address</td>
+                    <td>@runner.DateOfBirth</td>
+                    <td>
+                        <a asp-area="" asp-controller="Home" asp-action="View" asp-route-runnerId="@runner.Id">View</a>
+                        |
+                        <a asp-area="" asp-controller="Home" asp-action="Delete" asp-route-runnerId="@runner.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

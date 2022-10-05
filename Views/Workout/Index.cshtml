@@ -1,0 +1,69 @@
+﻿@model RunnerViewModel
+
+
+@{
+    ViewData["Title"] = "Workout Page";
+}
+
+<a asp-controller="Workout" asp-action="Add" class="btn btn-success">Go to add</a>
+
+<div>
+    Runner's data: <br />
+    Id: @Model.Id <br />
+    FirstName: @Model.FirstName <br />
+    LastName: @Model.LastName <br />
+    PhoneNumber: @Model.PhoneNumber <br />
+    Address: @Model.Address <br />
+    DateOfBirth: @Model.DateOfBirth <br />
+
+</div>
+
+<form asp-controller="Workout"asp-action="Index"asp-route-runnerId="@Model.Id">
+    <input type="text" name="FilterString" />
+    <button type="submit" class="btn btn-success">Filter</button>
+</form>
+
+<form asp-controller="Home" asp-action="Index">
+    <button type="submit" class="btn btn-success">Back</button>
+</form>
+
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    Id
+                </th>
+                <th scope="col">
+                    Name
+                </th>
+                <th scope="col">
+                    DateOfWorkout
+                </th>
+                <th scope="col">
+                    Actions
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var workout in Model.Workouts)
+            {
+                <tr>
+                    <th scope="row">@(workout.Id)</th>
+                    <td>@workout.Name</td>
+                    <td>@workout.DateOfWorkout</td>
+
+
+                    <td>
+                        <a asp-area="" asp-controller="Workout" asp-action="View" asp-route-workoutId="@workout.Id">View</a>
+                        |
+                        <a asp-area="" asp-controller="Workout" asp-action="Delete" asp-route-workoutId="@workout.Id">Delete</a>
+                        |
+                        <a asp-area="" asp-controller="Workout" asp-action="Edit" asp-route-workoutId="@workout.Id">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

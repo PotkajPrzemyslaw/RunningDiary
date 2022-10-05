@@ -1,0 +1,16 @@
+﻿@model RunnerViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form asp-controller="Home" asp-action="Add">
+    FirstName: <input type="text" name="FirstName" /> <br />
+    LastName: <input type="text" name="LastName" /> <br />
+    PhoneNumber: <input type="tel" name="PhoneNumber" /> <br />
+    Address: <input type="text" name="Address" /> <br />
+    DateOfBirth: <input type="date" name="DateOfBirth" /> <br />
+    <button type="submit" class="btn btn-success">Add</button>
+</form>
+
+

@@ -1,0 +1,59 @@
+﻿@model WorkoutViewModel
+
+@{
+    ViewData["Title"] = "Workout Page";
+    var runnerId = int.Parse(TempData["RunnerId"].ToString());
+}
+
+<a asp-controller="Exercise" asp-action="Add" class="btn btn-success">Go to add</a>
+
+<div>
+    Workout's data: <br />
+    Id: @Model.Id <br />
+    Name: @Model.Name <br />
+    DateOfWorkout: @Model.DateOfWorkout <br />
+</div>
+
+<form asp-controller="Exercise" asp-action="Index"asp-route-workoutId="@Model.Id">
+    <input type="text" name="FilterString" />
+    <button type="submit" class="btn btn-success">Filter</button>
+</form>
+
+<a asp-controller="Workout" asp-action="Index"asp-route-runnerId="@runnerId" type="submit" class="btn btn-success">Back</a>
+
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    Id
+                </th>
+                <th scope="col">
+                    Name
+                </th>
+                <th scope="col">
+                    Distance
+                </th>
+                <th scope="col">
+                    Actions
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var exercise in Model.Exercises)
+            {
+                <tr>
+                    <th scope="row">@(exercise.Id)</th>
+                    <td>@exercise.Name</td>
+                    <td>@exercise.Distance</td>
+                    <td>
+                        <a asp-area="" asp-controller="Exercise" asp-action="Delete" asp-route-exerciseId="@exercise.Id">Delete</a>
+                        |
+                        <a asp-area="" asp-controller="Exercise" asp-action="Edit" asp-route-exerciseId="@exercise.Id">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

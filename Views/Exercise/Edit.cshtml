@@ -1,0 +1,13 @@
+﻿@model ExerciseViewModel
+
+@{
+    ViewData["Title"] = "Exercise Page";
+}
+
+<form asp-controller="Exercise" asp-action="Edit">
+    Name: <input type="text" name="Name" /> <br />
+    Distance: <input type="number" name="Distance" /> <br />
+    <button type="submit" class="btn btn-success">Edit</button>
+</form>
+
+
