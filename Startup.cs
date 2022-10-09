@@ -29,7 +29,7 @@ namespace RunningDiary
             services.AddControllersWithViews();
 
             services.AddDbContext<RunningDiaryDbContext>(options =>
-                options.UseSqlServer(@"Server=(localdb)\.;Database=RunningDiaryDatabase;Trusted_Connection=True;MultipleActiveResultSets=true"));
+                options.UseSqlServer(@"Server=localhost;Database=RunningDiaryDatabase;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
             services.AddTransient<IRunnerRepository, RunnerRepository>(); //mo¿na u¿ywaæ repozytoria
             services.AddTransient<IWorkoutRepository, WorkoutRepository>();

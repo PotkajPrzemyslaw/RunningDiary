@@ -19,7 +19,10 @@ namespace RunningDiary.Controllers
         public IActionResult Index(int runnerId, int workoutId, string filterString)
         {
             TempData["RunnerId"] = runnerId;
-            TempData["WorkoutId"] = workoutId;
+            TempData["RunnerId2"] = runnerId;
+            TempData["WorkoutId2"] = workoutId;
+            TempData["RunnerId3"] = runnerId;
+            TempData["WorkoutId3"] = workoutId;
 
             var workoutDto = mRunnerManager.GetAllWorkoutsForARunner(runnerId, null)
                                                  .FirstOrDefault(x => x.Id == workoutId);
@@ -38,7 +41,7 @@ namespace RunningDiary.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Edit(ExerciseViewModel exerciseVm)
+        public IActionResult Edit(ExerciseViewModel exerciseVm, int workoutId)
         {
             ExerciseViewModel newVm = new ExerciseViewModel { Id = int.Parse(TempData["ExerciseId"].ToString()) };
             newVm.Name = exerciseVm.Name;
@@ -46,28 +49,34 @@ namespace RunningDiary.Controllers
 
             var dto = mViewModelMapper.Map(newVm);
 
-            mRunnerManager.EditExercise(dto, int.Parse(TempData["WorkoutId"].ToString()));
+            mRunnerManager.EditExercise(dto, workoutId);
 
-            return RedirectToAction("Index", new {runnerId = int.Parse(TempData["RunnerId"].ToString()),
-                                                  workoutId = int.Parse(TempData["WorkoutId"].ToString()) });
+            return RedirectToAction("Index", new {runnerId = int.Parse(TempData["RunnerId2"].ToString()),
+                                                  workoutId = workoutId });
         }
 
         public IActionResult Edit(int exerciseId)
         {
+            var exerciseDto = mRunnerManager.GetAllExercisesForAWorkout(int.Parse(TempData["WorkoutId2"].ToString()), null).FirstOrDefault(x => x.Id == exerciseId);
+            var exerciseVm = mViewModelMapper.Map(exerciseDto);
+            exerciseVm.Workout = new WorkoutViewModel { Id = int.Parse(TempData["WorkoutId2"].ToString()) };
             TempData["ExerciseId"] = exerciseId;
-            return View();
+            return View(exerciseVm);
         }
         [HttpPost]
         public IActionResult Add(ExerciseViewModel exerciseVm)
         {
             var dto = mViewModelMapper.Map(exerciseVm);
 
-            mRunnerManager.AddNewExercise(dto, int.Parse(TempData["WorkoutId"].ToString()));
+            mRunnerManager.AddNewExercise(dto, int.Parse(TempData["WorkoutId2"].ToString()));
 
+            var workoutId = int.Parse(TempData["WorkoutId2"].ToString());
+            var runnerId = int.Parse(TempData["RunnerId2"].ToString());
+            
             return RedirectToAction("Index", new
             {
-                runnerId = int.Parse(TempData["RunnerId"].ToString()),
-                workoutId = int.Parse(TempData["WorkoutId"].ToString())
+                runnerId = runnerId,
+                workoutId = workoutId
             });
         }
         public IActionResult Delete(int exerciseId)
@@ -76,9 +85,8 @@ namespace RunningDiary.Controllers
 
             return RedirectToAction("Index", new
             {
-            //    runnerId = runnerId,
-                runnerId = int.Parse(TempData["RunnerId"].ToString()),
-                workoutId = int.Parse(TempData["WorkoutId"].ToString())
+                runnerId = int.Parse(TempData["RunnerId2"].ToString()),
+                workoutId = int.Parse(TempData["WorkoutId2"].ToString())
             });
         }
     }

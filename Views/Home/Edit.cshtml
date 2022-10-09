@@ -1,7 +1,7 @@
 ﻿@model RunnerViewModel
 
 @{
-    ViewData["Title"] = "Add Runner";
+    ViewData["Title"] = "Edit Runner";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -11,7 +11,7 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <form asp-controller="Home" asp-action="Add">
+        <form asp-controller="Home" asp-action="Edit">
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -37,7 +37,8 @@
                 <input asp-for="DateOfBirth" type="date" class="form-control" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-dark">Add</button>
+
+            <button type="submit" class="btn btn-dark">Save</button>
             
 
         </form>

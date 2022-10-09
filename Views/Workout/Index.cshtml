@@ -2,68 +2,85 @@
 
 
 @{
-    ViewData["Title"] = "Workout Page";
+    ViewData["Title"] = Model.FirstName + " " + Model.LastName;
+    TempData["Index"] = 1;
 }
 
-<a asp-controller="Workout" asp-action="Add" class="btn btn-success">Go to add</a>
+<div class="jumbotron">
+    <h2>@ViewData["Title"]</h2>
+    <hr />
 
-<div>
-    Runner's data: <br />
-    Id: @Model.Id <br />
-    FirstName: @Model.FirstName <br />
-    LastName: @Model.LastName <br />
-    PhoneNumber: @Model.PhoneNumber <br />
-    Address: @Model.Address <br />
-    DateOfBirth: @Model.DateOfBirth <br />
+    <p><a asp-controller="Workout" asp-action="Add" class="btn btn-dark">Add workout</a></p>
 
-</div>
+    <p>
+        Phone Number: @Model.PhoneNumber
+        <br />
+    </p>
+    <p>
+        Address: @Model.Address
+        <br />
+    </p>
+    <p>
+        Date Of Birth: @Model.DateOfBirth.ToShortDateString()
+        <br />
+    </p>
 
-<form asp-controller="Workout"asp-action="Index"asp-route-runnerId="@Model.Id">
-    <input type="text" name="FilterString" />
-    <button type="submit" class="btn btn-success">Filter</button>
-</form>
 
-<form asp-controller="Home" asp-action="Index">
-    <button type="submit" class="btn btn-success">Back</button>
-</form>
 
-<div class="text-center">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">
-                    Id
-                </th>
-                <th scope="col">
-                    Name
-                </th>
-                <th scope="col">
-                    DateOfWorkout
-                </th>
-                <th scope="col">
-                    Actions
-                </th>
-            </tr>
 
-        </thead>
-        <tbody>
-            @foreach (var workout in Model.Workouts)
-            {
+    <p><a asp-controller="Home" asp-action="Index" class="btn btn-dark">Back to runners</a></p>
+
+    <p>
+        <form asp-controller="Workout" asp-action="Index" asp-route-runnerId="@Model.Id">
+            <input type="text" name="FilterString" />
+            <button type="submit" class="btn btn-dark">Filter</button>
+        </form>
+    </p>
+
+
+    <div class="text-center">
+        <table class="table">
+            <thead>
                 <tr>
-                    <th scope="row">@(workout.Id)</th>
-                    <td>@workout.Name</td>
-                    <td>@workout.DateOfWorkout</td>
-
-
-                    <td>
-                        <a asp-area="" asp-controller="Workout" asp-action="View" asp-route-workoutId="@workout.Id">View</a>
-                        |
-                        <a asp-area="" asp-controller="Workout" asp-action="Delete" asp-route-workoutId="@workout.Id">Delete</a>
-                        |
-                        <a asp-area="" asp-controller="Workout" asp-action="Edit" asp-route-workoutId="@workout.Id">Edit</a>
-                    </td>
+                    <th scope="col">
+                        Index
+                    </th>
+                    <th scope="col">
+                        Type Of Workout
+                    </th>
+                    <th scope="col">
+                        Description
+                    </th>
+                    <th scope="col">
+                        Date Of Workout
+                    </th>
+                    <th scope="col">
+                        Actions
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+
+            </thead>
+            <tbody>
+                @foreach (var workout in Model.Workouts)
+                {
+                    <tr>
+                        <th scope="row">@(int.Parse(TempData["Index"].ToString()))</th>
+                        <td>@workout.TypeOfWorkout</td>
+                        <td>@workout.Description</td>
+                        <td>@workout.DateOfWorkout.ToShortDateString()</td>
+
+
+                        <td>
+                            <a asp-area="" asp-controller="Workout" asp-action="View" asp-route-workoutId="@workout.Id">View</a>
+                            |
+                            <a asp-area="" asp-controller="Workout" asp-action="Delete" asp-route-workoutId="@workout.Id">Delete</a>
+                            |
+                            <a asp-area="" asp-controller="Workout" asp-action="Edit" asp-route-workoutId="@workout.Id">Edit</a>
+                        </td>
+                    </tr>
+                    TempData["Index"] = int.Parse(TempData["Index"].ToString()) + 1;
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

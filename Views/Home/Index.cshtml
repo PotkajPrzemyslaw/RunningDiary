@@ -1,62 +1,64 @@
 ﻿@model List<RunnerViewModel>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Running Diary";
+    TempData["Index"] = 1;
 }
-
-<a asp-controller="Home" asp-action="Add" class="btn btn-success">Go to add</a>
-
-<form asp-controller="Home" asp-action="Index">
-    <input type="text" name="FilterString" />
-    <button type="submit" class="btn btn-success">Filter</button>
-</form>
+<div class="jumbotron">
+    <h2>@ViewData["Title"]</h2>
+    <hr />
 
 
-<div class="text-center">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">
-                    Id
-                </th>
-                <th scope="col">
-                    FirstName
-                </th>
-                <th scope="col">
-                    LastName
-                </th>
-                <th scope="col">
-                    PhoneNumber
-                </th>
-                <th scope="col">
-                    Address
-                </th>
-                <th scope="col">
-                    DateOfBirth
-                </th>
-                <th scope="col">
-                    Actions
-                </th>
-            </tr>
+    <p><a asp-controller="Home" asp-action="Add" class="btn btn-dark">Add Runner</a></p><br />
 
-        </thead>
-        <tbody>
-            @foreach (var runner in Model)
-            {
+    <p>
+        <form asp-controller="Home" asp-action="Index">
+            <input type="text" name="FilterString" />
+            <button type="submit" class="btn btn-dark">Filter</button>
+        </form>
+    </p>
+
+    <div class="text-center">
+        <table class="table">
+            <thead>
                 <tr>
-                    <th scope="row">@(runner.Id)</th>
-                    <td>@runner.FirstName</td>
-                    <td>@runner.LastName</td>
-                    <td>@runner.PhoneNumber</td>
-                    <td>@runner.Address</td>
-                    <td>@runner.DateOfBirth</td>
-                    <td>
-                        <a asp-area="" asp-controller="Home" asp-action="View" asp-route-runnerId="@runner.Id">View</a>
-                        |
-                        <a asp-area="" asp-controller="Home" asp-action="Delete" asp-route-runnerId="@runner.Id">Delete</a>
-                    </td>
+                    <th scope="col">
+                        Index
+                    </th>
+                    <th scope="col">
+                        FirstName
+                    </th>
+                    <th scope="col">
+                        LastName
+                    </th>
+                    <th scope="col">
+                        Address
+                    </th>
+                    <th scope="col">
+                        Actions
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+
+            </thead>
+            <tbody>
+                @foreach (var runner in Model)
+                {
+                    <tr>
+                        <th scope="row">@int.Parse(TempData["Index"].ToString())</th>
+                        <td>@runner.FirstName</td>
+                        <td>@runner.LastName</td>
+                        <td>@runner.Address</td>
+                        <td>
+                            <a asp-area="" asp-controller="Home" asp-action="View" asp-route-runnerId="@runner.Id">View</a>
+                            |
+                            <a asp-area="" asp-controller="Home" asp-action="Delete" asp-route-runnerId="@runner.Id">Delete</a>
+                            |
+                            <a asp-area="" asp-controller="Home" asp-action="Edit" asp-route-runnerId="@runner.Id">Edit</a>
+                        </td>
+                    </tr>
+                    TempData["Index"] = int.Parse(TempData["Index"].ToString()) + 1;
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

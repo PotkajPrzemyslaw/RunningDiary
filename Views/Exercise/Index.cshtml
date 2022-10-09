@@ -1,59 +1,64 @@
 ﻿@model WorkoutViewModel
 
 @{
-    ViewData["Title"] = "Workout Page";
-    var runnerId = int.Parse(TempData["RunnerId"].ToString());
+    ViewData["Title"] = Model.TypeOfWorkout;
+    TempData["Index"] = 1;
 }
+<div class="jumbotron">
+    <h2>@ViewData["Title"]</h2>
+    <hr />
 
-<a asp-controller="Exercise" asp-action="Add" class="btn btn-success">Go to add</a>
+    <p><a asp-controller="Exercise" asp-action="Add" class="btn btn-dark">Add Exercise</a></p>
 
-<div>
-    Workout's data: <br />
-    Id: @Model.Id <br />
-    Name: @Model.Name <br />
-    DateOfWorkout: @Model.DateOfWorkout <br />
-</div>
+    <div>
+        <p>Description: @Model.Description <br /></p>
+        <p>Date Of Workout: @Model.DateOfWorkout.ToShortDateString() <br /></p>
+    </div>
 
-<form asp-controller="Exercise" asp-action="Index"asp-route-workoutId="@Model.Id">
-    <input type="text" name="FilterString" />
-    <button type="submit" class="btn btn-success">Filter</button>
-</form>
+    <p><a asp-controller="Workout" asp-action="Index" asp-route-runnerId="@int.Parse(TempData["RunnerId"].ToString())" class="btn btn-dark">Back to workouts</a></p>
 
-<a asp-controller="Workout" asp-action="Index"asp-route-runnerId="@runnerId" type="submit" class="btn btn-success">Back</a>
+    <p>
+        <form asp-controller="Exercise" asp-action="Index" asp-route-workoutId="@Model.Id">
+            <input type="text" name="FilterString" />
+            <button type="submit" class="btn btn-dark">Filter</button>
+        </form>
+    </p>
 
-<div class="text-center">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">
-                    Id
-                </th>
-                <th scope="col">
-                    Name
-                </th>
-                <th scope="col">
-                    Distance
-                </th>
-                <th scope="col">
-                    Actions
-                </th>
-            </tr>
-
-        </thead>
-        <tbody>
-            @foreach (var exercise in Model.Exercises)
-            {
+    <div class="text-center">
+        <table class="table">
+            <thead>
                 <tr>
-                    <th scope="row">@(exercise.Id)</th>
-                    <td>@exercise.Name</td>
-                    <td>@exercise.Distance</td>
-                    <td>
-                        <a asp-area="" asp-controller="Exercise" asp-action="Delete" asp-route-exerciseId="@exercise.Id">Delete</a>
-                        |
-                        <a asp-area="" asp-controller="Exercise" asp-action="Edit" asp-route-exerciseId="@exercise.Id">Edit</a>
-                    </td>
+                    <th scope="col">
+                        Index
+                    </th>
+                    <th scope="col">
+                        Name
+                    </th>
+                    <th scope="col">
+                        Distance
+                    </th>
+                    <th scope="col">
+                        Actions
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+
+            </thead>
+            <tbody>
+                @foreach (var exercise in Model.Exercises)
+                {
+                    <tr>
+                        <td>@int.Parse(TempData["Index"].ToString())</td>
+                        <td>@exercise.Name</td>
+                        <td>@exercise.Distance</td>
+                        <td>
+                            <a asp-area="" asp-controller="Exercise" asp-action="Delete" asp-route-exerciseId="@exercise.Id">Delete</a>
+                            |
+                            <a asp-area="" asp-controller="Exercise" asp-action="Edit" asp-route-exerciseId="@exercise.Id">Edit</a>
+                        </td>
+                    </tr>
+                    TempData["Index"] = int.Parse(TempData["Index"].ToString()) + 1;
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -39,6 +39,31 @@ namespace RunningDiary.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult Edit(int runnerId)
+        {
+            var runnerDto = mRunnerManager.GetAllRunners(null).FirstOrDefault(x => x.Id == runnerId);
+            var runnerVm = mViewModelMapper.Map(runnerDto);
+            TempData["RunnerId"] = runnerId;
+            return View(runnerVm);
+        }
+        [HttpPost]
+        public IActionResult Edit(RunnerViewModel runnerVm)
+        {
+            runnerVm.Id = int.Parse(TempData["RunnerId"].ToString());
+           /* RunnerViewModel newVm = new RunnerViewModel { Id = int.Parse(TempData["RunnerId"].ToString()) };
+            newVm.FirstName = runnerVm.FirstName;
+            newVm.LastName = runnerVm.LastName;
+            newVm.PhoneNumber = runnerVm.PhoneNumber;
+            newVm.Address = runnerVm.Address;
+            newVm.DateOfBirth = runnerVm.DateOfBirth;
+           */
+            var dto = mViewModelMapper.Map(runnerVm);
+
+            mRunnerManager.EditRunner(dto, int.Parse(TempData["RunnerId"].ToString()));
+
+            return RedirectToAction("Index");
+        }
         public IActionResult View(int runnerId)
         {
             return RedirectToAction("Index", "Workout", new { runnerId = runnerId }); //nazwa kontrolera, nazwa akcji, model

@@ -8,7 +8,7 @@ namespace RunningDiary.Controllers
     {
         private readonly IRunnerManager mRunnerManager;
         private readonly ViewModelMapper mViewModelMapper;
-       // public int RunnerId { get; set; }
+
         public WorkoutController(IRunnerManager runnerManager,
                                  ViewModelMapper viewModelMapper)
         {
@@ -19,7 +19,7 @@ namespace RunningDiary.Controllers
         public IActionResult Index(int runnerId, string filterString)
         {
             TempData["RunnerId"] = runnerId;
-
+            TempData["RunnerId3"] = runnerId;
 
             var runnerDto = mRunnerManager.GetAllRunners(null)
                                           .FirstOrDefault(x => x.Id == runnerId);
@@ -32,43 +32,31 @@ namespace RunningDiary.Controllers
 
             return View(runnerViewModel);
         }
-        
-       /* public IActionResult Filter(int runnerId, string filterString)
-        {
-
-            var runnerDto = mRunnerManager.GetAllDoctors(null)
-                                          .FirstOrDefault(x => x.Id == runnerId);
-
-            var workoutDto = mRunnerManager.GetAllPrescriptionForADoctor(runnerId, filterString);
-
-            var doctorViewModel = mViewModelMapper.Map(runnerDto);
-            doctorViewModel.Prescriptions = mViewModelMapper.Map(workoutDto);
-
-
-            return View(doctorViewModel);
-        }
-       */
         public IActionResult Add()
         {
-            return View();
+            return View(new WorkoutViewModel());
         }
         public IActionResult Edit(int workoutId)
         {
+            var workoutDto = mRunnerManager.GetAllWorkoutsForARunner(int.Parse(TempData["RunnerId"].ToString()), null).FirstOrDefault(x => x.Id == workoutId);
+            var workoutVm = mViewModelMapper.Map(workoutDto);
+            workoutVm.Runner = new RunnerViewModel { Id = int.Parse(TempData["RunnerId"].ToString()) };
             TempData["WorkoutId"] = workoutId;
-            return View();
+            return View(workoutVm);
         }
         [HttpPost]
-        public IActionResult Edit(WorkoutViewModel workoutVm)
+        public IActionResult Edit(WorkoutViewModel workoutVm, int runnerId)
         {
             WorkoutViewModel newVm = new WorkoutViewModel { Id = int.Parse(TempData["WorkoutId"].ToString()) };
-            newVm.Name = workoutVm.Name;
+            newVm.TypeOfWorkout = workoutVm.TypeOfWorkout;
+            newVm.Description = workoutVm.Description;
             newVm.DateOfWorkout = workoutVm.DateOfWorkout;
 
-            var dto = mViewModelMapper.Map(newVm);
+            var updateDto = mViewModelMapper.Map(newVm);
 
-            mRunnerManager.EditWorkout(dto, int.Parse(TempData["RunnerId"].ToString()));
+            mRunnerManager.EditWorkout(updateDto, runnerId);
 
-            return RedirectToAction("Index", new { runnerId = int.Parse(TempData["RunnerId"].ToString()) });
+            return RedirectToAction("Index", new { runnerId = runnerId });
         }
         [HttpPost]
         public IActionResult Add(WorkoutViewModel workoutVm)
