@@ -20,6 +20,6 @@ Steps to run project:
 
 ## Project preview
 
-![](./images/university1.png)
+![](./readmeImages/TrainerView)
 
 ![](./images/university2.png)
