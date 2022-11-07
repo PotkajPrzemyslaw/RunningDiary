@@ -17,9 +17,18 @@ Steps to run project:
 - Download all files from the repository
 - Find solution RunningDiary.sln nad open in Visual Studio 2019 or later installed
 - Build project to restore packages and build project
+- Run solution by IIS Expres
 
 ## Project preview
-
-![](./readmeImages/TrainerView)
-
-![](./images/university2.png)
+TrainerView
+![](./readmeImages/TrainerView.jpg)
+RunnerView
+![](./readmeImages/RunnerView.jpg)
+WorkoutView
+![](./readmeImages/WorkoutView.jpg)
+addRunner
+![](./readmeImages/addRunner.jpg)
+addWorkout
+![](./readmeImages/addWorkout.jpg)
+addExercise
+![](./readmeImages/addExercise.jpg)
