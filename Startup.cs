@@ -64,7 +64,7 @@ namespace RunningDiary
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=About}/{id?}");
             });
 
             var database = serviceProvider.GetService<RunningDiaryDbContext>();

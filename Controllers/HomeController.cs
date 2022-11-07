@@ -30,6 +30,14 @@ namespace RunningDiary.Controllers
         {
             return View();
         }
+        public IActionResult About()
+        {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult Add(RunnerViewModel runnerVm)
         {

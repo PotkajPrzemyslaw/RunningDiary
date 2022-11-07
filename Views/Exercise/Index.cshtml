@@ -18,7 +18,7 @@
     <p><a asp-controller="Workout" asp-action="Index" asp-route-runnerId="@int.Parse(TempData["RunnerId"].ToString())" class="btn btn-dark">Back to workouts</a></p>
 
     <p>
-        <form asp-controller="Exercise" asp-action="Index" asp-route-workoutId="@Model.Id">
+        <form asp-controller="Exercise" asp-action="Index" asp-route-workoutId="@Model.Id" asp-route-runnerId="@int.Parse(TempData["RunnerId"].ToString())">
             <input type="text" name="FilterString" />
             <button type="submit" class="btn btn-dark">Filter</button>
         </form>

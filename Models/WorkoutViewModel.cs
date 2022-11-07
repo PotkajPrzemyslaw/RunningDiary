@@ -11,7 +11,7 @@ namespace RunningDiary
         public string Description { get; set; }
         public string TypeOfWorkout { get; set; }
         public SelectList TypeOfWorkoutList { get; set; } = new SelectList(new List<string> {
-            "Trening Wytrzymałościowy", "Trening Szybkościowy", "Trening Interwałowy", "Trening Progowy"
+            "Endurance Training", "Speed Training", "Interval Training", "Threshold Training", "Strengthening Exercises"
         });
         public DateTime DateOfWorkout { get; set; } = DateTime.Now;
         public RunnerViewModel Runner { get; set; }
